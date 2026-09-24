@@ -376,7 +376,7 @@ export default function App() {
 
             <p className="text-xs font-mono text-cyan-400 mb-2 tracking-wide flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              satyam@terminal : ~ $ whoami
+              user@portfolio : ~ $ whoami
             </p>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight flex items-center">
