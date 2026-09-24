@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://satyam-portfolio-dev.vercel.app"><strong>Explore The Live Site »</strong></a>
+  <a href="https://silently-code.vercel.app/"><strong>Explore The Live Site »</strong></a>
 </p>
 
 ---
