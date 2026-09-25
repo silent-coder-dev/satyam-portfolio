@@ -14,11 +14,11 @@ import {
   FaMapMarkerAlt,
   FaDownload,
   FaSpinner,
-  FaCode
+  FaCode,
+  FaRobot
 } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
 import { BiCodeAlt } from "react-icons/bi";
-import { BsShieldCheck } from "react-icons/bs";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,7 @@ export default function App() {
 
   // Fetch Live GitHub & LeetCode Metrics
   useEffect(() => {
-    fetch("https://api.github.com/users/silently-feel")
+    fetch("https://api.github.com/users/silent-coder-dev")
       .then((res) => res.json())
       .then((data) => {
         if (data && data.public_repos !== undefined) {
@@ -260,13 +260,13 @@ export default function App() {
       ]
     },
     {
-      category: "Databases & Tools",
+      category: "Databases, AI & Tools",
       color: "from-emerald-400 to-cyan-500",
       skills: [
-        { name: "MySQL", level: 82 },
+        { name: "MySQL & MongoDB", level: 82 },
         { name: "Docker", level: 75 },
+        { name: "Gemini AI API / LLM Prompting", level: 84 },
         { name: "Cloudinary", level: 80 },
-        { name: "MongoDB", level: 72 },
         { name: "Git & GitHub", level: 85 }
       ]
     }
@@ -274,32 +274,51 @@ export default function App() {
 
   const projects = [
     {
+      title: "AI Resume Builder — Smart ATS Resume Generator",
+      subtitle: "Full-Stack AI Application with Real-Time Preview & Export",
+      badge: "Production Live",
+      badgeStyle: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
+      route: "ai-resume-builder-silent.vercel.app",
+      description:
+        "An AI-powered web platform that generates and optimizes ATS-compliant professional resumes. Features prompt-driven summaries, work experience refinement, live responsive templates, and instant PDF download.",
+      tags: ["React.js", "Tailwind CSS", "Gemini AI", "Node.js", "Express", "Vercel", "PDF Export"],
+      points: [
+        "Integrated AI prompting to analyze raw user experience and output high-impact, ATS-optimized bullet points.",
+        "Built reactive state management allowing instant real-time live preview across multiple layout templates.",
+        "Engineered client-side print-ready PDF export with precision styling.",
+        "Deployed live on Vercel with responsive desktop and mobile layouts."
+      ],
+      curl: null,
+      github: "https://github.com/silent-coder-dev/ai-resume-builder",
+      live: "https://ai-resume-builder-silent.vercel.app/"
+    },
+    {
       title: "SupportDesk — Customer Support CRM",
       subtitle: "Full-Stack Ticketing & Media Management Application",
       badge: "Production Live",
       badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
-      route: "api.supportdesk.internal/v1/tickets",
+      route: "support-desk-crm-qs00.onrender.com/tickets",
       description:
-        "Full-stack CRM web application with role-based agent authentication, secure image uploads via Cloudinary, and relational database management.",
+        "Full-stack CRM web application with role-based agent authentication, secure image uploads via Cloudinary, and relational database management deployed live on Render.",
       tags: ["Java", "Spring Boot", "Spring Security", "MySQL", "Hibernate", "Cloudinary", "Docker", "Render"],
       points: [
         "Implemented agent authentication and secure role-based access using Spring Security.",
         "Integrated Cloudinary Java SDK via a Spring singleton bean for safe ticket attachment uploads.",
         "Designed relational database schemas with Hibernate/JPA, enforcing optimistic locking for ticket status updates.",
         "Configured automatic email alerts upon ticket creation using Gmail SMTP.",
-        "Containerized the application using Docker and deployed it live to Render."
+        "Containerized the entire application using Docker and deployed it live to Render."
       ],
       curl: `curl -X POST https://support-desk-crm-qs00.onrender.com/tickets \\
   -H "Content-Type: application/json" \\
   -d '{"title":"Login Bug","priority":"HIGH"}'`,
-      github: "https://github.com/silently-feel/support-desk-crm",
+      github: "https://github.com/silent-coder-dev/satyam-portfolio",
       live: "https://support-desk-crm-qs00.onrender.com/tickets"
     },
     {
       title: "NutriScan — Food Health & Sustainability Scanner",
       subtitle: "Nutritional Assessment & Ecological Scoring Web Platform",
       badge: "Web Platform",
-      badgeStyle: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
+      badgeStyle: "bg-teal-500/10 text-teal-400 border-teal-500/30",
       route: "api.nutriscan.internal/v1/analyze",
       description:
         "Full-stack web application built to analyze food products, display nutritional scores, and evaluate environmental impact.",
@@ -310,7 +329,7 @@ export default function App() {
         "Collaborated on API design, MongoDB collection planning, and end-to-end testing."
       ],
       curl: null,
-      github: "https://github.com/silently-feel",
+      github: "https://github.com/silent-coder-dev",
       live: null
     }
   ];
@@ -376,7 +395,7 @@ export default function App() {
 
             <p className="text-xs font-mono text-cyan-400 mb-2 tracking-wide flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              user@portfolio : ~ $ whoami
+              satyam@terminal : ~ $ whoami
             </p>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-tight flex items-center">
@@ -450,7 +469,7 @@ export default function App() {
             <div className="flex-1 space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 shadow-sm shadow-cyan-500/10">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Aspiring Software Developer &bull; Entry-Level Engineer
+                Aspiring Software Developer &bull; Backend &amp; AI Systems
               </div>
 
               <div className="space-y-1">
@@ -461,12 +480,12 @@ export default function App() {
                   Satyam Singh.
                 </h1>
                 <h2 className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 tracking-tight pt-1">
-                  Building Clean Code &amp; Reliable Web Solutions.
+                  Building Clean Code, AI Tools &amp; Reliable Web Solutions.
                 </h2>
               </div>
 
               <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Computer Engineering graduate with a solid foundation in <span className="text-white font-semibold">Java</span>, <span className="text-white font-semibold">Spring Boot</span>, object-oriented design, and database management. Dedicated to writing maintainable code and solving real-world backend challenges.
+                Computer Engineering graduate with a solid foundation in <span className="text-white font-semibold">Java</span>, <span className="text-white font-semibold">Spring Boot</span>, object-oriented design, AI integrations, and database management. Dedicated to writing maintainable code and solving real-world challenges.
               </p>
 
               {/* Action Buttons */}
@@ -505,7 +524,7 @@ export default function App() {
               {/* Social Connections */}
               <div className="flex items-center justify-center lg:justify-start gap-3 pt-2 text-slate-400">
                 <a
-                  href="https://github.com/silently-feel"
+                  href="https://github.com/silent-coder-dev"
                   target="_blank"
                   rel="noreferrer"
                   onMouseEnter={() => setCursorHovered(true)}
@@ -586,7 +605,7 @@ export default function App() {
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "CORE FOCUS", val: "Java & Spring Boot" },
-            { label: "DATABASE", val: "MySQL & JPA" },
+            { label: "AI & DATABASE", val: "Gemini AI & MySQL" },
             { label: "EDUCATION", val: "B.Tech Graduate" },
             { label: "STATUS", val: "Ready to Join" }
           ].map((item, idx) => (
@@ -622,14 +641,14 @@ export default function App() {
                 desc: "Building RESTful web services, structuring clean service layers, and managing relational databases with Spring Boot."
               },
               {
-                icon: <BiCodeAlt className="text-teal-400" size={20} />,
-                title: "Problem Solving",
-                desc: "Solid grasp of Data Structures and Algorithms with regular problem practice on LeetCode for optimized logic."
+                icon: <FaRobot className="text-emerald-400" size={20} />,
+                title: "AI Integration & Full Stack",
+                desc: "Connecting LLMs (like Gemini API) to frontend interfaces to build smart workflows like ATS resume generators."
               },
               {
                 icon: <FaDocker className="text-blue-400" size={20} />,
                 title: "Modern Dev Workflow",
-                desc: "Proficient with Git version control, multi-stage Docker packaging, Postman API testing, and Render deployments."
+                desc: "Proficient with Git version control, multi-stage Docker packaging, Postman API testing, and Vercel/Render deployments."
               }
             ].map((card, idx) => (
               <motion.div
@@ -732,7 +751,7 @@ export default function App() {
 
               {/* GitHub Clickable Card */}
               <motion.a
-                href="https://github.com/silently-feel"
+                href="https://github.com/silent-coder-dev"
                 target="_blank"
                 rel="noreferrer"
                 onMouseEnter={() => setCursorHovered(true)}
@@ -755,7 +774,7 @@ export default function App() {
                     </h4>
                     <FaExternalLinkAlt size={10} className="text-slate-500 group-hover:text-cyan-400 transition" />
                   </div>
-                  <p className="text-xs text-slate-500 font-mono">@silently-feel</p>
+                  <p className="text-xs text-slate-500 font-mono">@silent-coder-dev</p>
                   <div className="pt-2">
                     <span className="text-3xl font-extrabold text-white group-hover:text-cyan-300 transition">
                       {githubRepos}
@@ -770,7 +789,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* PROJECTS SECTION WITH MACOS TERMINAL FRAMES & CURL */}
+        {/* PROJECTS SECTION WITH BALANCED SPACING */}
         <section id="projects" className="space-y-8">
           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
             <div>
@@ -779,10 +798,10 @@ export default function App() {
               </span>
               <h2 className="text-3xl font-bold text-white mt-1">Featured Work</h2>
             </div>
-            <span className="text-xs font-mono text-slate-500">01 — 02</span>
+            <span className="text-xs font-mono text-slate-500">01 — 03</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {projects.map((proj, idx) => (
               <motion.div
                 key={idx}
@@ -790,7 +809,7 @@ export default function App() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="group relative rounded-3xl bg-[#080d1a]/60 border border-slate-800/90 shadow-2xl hover:border-cyan-500/40 transition duration-300 flex flex-col justify-between overflow-hidden"
+                className="group relative rounded-3xl bg-[#080d1a]/60 border border-slate-800/90 shadow-2xl hover:border-cyan-500/40 transition duration-300 flex flex-col overflow-hidden"
               >
                 {/* MacOS Chrome Header */}
                 <div className="px-5 py-3 bg-[#050914] border-b border-slate-800/80 flex items-center justify-between">
@@ -799,13 +818,13 @@ export default function App() {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
                   </div>
-                  <span className="text-[11px] font-mono text-slate-500 truncate max-w-[200px]">
+                  <span className="text-[11px] font-mono text-slate-500 truncate max-w-[190px]">
                     {proj.route}
                   </span>
-                  <div className="w-8" />
+                  <div className="w-4" />
                 </div>
 
-                <div className="p-7 sm:p-8 flex flex-col justify-between flex-1">
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
                   <div>
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <span className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${proj.badgeStyle}`}>
@@ -834,7 +853,7 @@ export default function App() {
                             onMouseEnter={() => setCursorHovered(true)}
                             onMouseLeave={() => setCursorHovered(false)}
                             className="p-2 rounded-lg text-black bg-cyan-400 hover:bg-cyan-300 transition"
-                            title="Live Demo"
+                            title="Open Live Website"
                           >
                             <FaExternalLinkAlt size={11} />
                           </a>
@@ -842,38 +861,38 @@ export default function App() {
                       </div>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition mb-1">
+                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition mb-1">
                       {proj.title}
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mb-3">{proj.subtitle}</p>
 
-                    <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                    <p className="text-xs text-slate-300 leading-relaxed mb-4">
                       {proj.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-1.5 mb-5">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {proj.tags.map((t, tIdx) => (
                         <span
                           key={tIdx}
-                          className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-[#040814] text-cyan-300/90 border border-cyan-500/20"
+                          className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#040814] text-cyan-300/90 border border-cyan-500/20"
                         >
                           {t}
                         </span>
                       ))}
                     </div>
 
-                    {/* Backend cURL Terminal Preview */}
+                    {/* Backend cURL Terminal Preview (Only where available) */}
                     {proj.curl && (
-                      <div className="mb-5 p-3 rounded-xl bg-[#040814] border border-slate-800 font-mono text-[11px] relative group/curl">
+                      <div className="mb-4 p-3 rounded-xl bg-[#040814] border border-slate-800 font-mono text-[10px] relative group/curl">
                         <div className="flex justify-between items-center text-slate-500 pb-1.5 border-b border-slate-800/70 mb-2">
-                          <span className="flex items-center gap-1 text-[10px]">
-                            <FaCode size={11} className="text-cyan-400" /> API Test cURL
+                          <span className="flex items-center gap-1 text-[9px]">
+                            <FaCode size={10} className="text-cyan-400" /> API Test cURL
                           </span>
                           <button
                             onClick={copyCurl}
                             onMouseEnter={() => setCursorHovered(true)}
                             onMouseLeave={() => setCursorHovered(false)}
-                            className="text-cyan-400 hover:text-white transition flex items-center gap-1 text-[10px] cursor-pointer"
+                            className="text-cyan-400 hover:text-white transition flex items-center gap-1 text-[9px] cursor-pointer"
                           >
                             {copiedCurl ? <FaCheck className="text-emerald-400" /> : <FaCopy />}
                             {copiedCurl ? "Copied" : "Copy"}
@@ -886,7 +905,8 @@ export default function App() {
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-slate-800/80">
+                  {/* mt-auto pushes this section cleanly to the bottom without leaving artificial empty gaps above */}
+                  <div className="mt-auto pt-4 border-t border-slate-800/80">
                     <ul className="space-y-1.5 text-xs text-slate-400">
                       {proj.points.map((pt, pIdx) => (
                         <li key={pIdx} className="flex items-start gap-2">
@@ -1020,7 +1040,7 @@ export default function App() {
               {[
                 { label: "Email", val: "satyam.singh261103@gmail.com", href: "mailto:satyam.singh261103@gmail.com" },
                 { label: "LinkedIn", val: "satyam-singh-05b369376", href: "https://www.linkedin.com/in/satyam-singh-05b369376/" },
-                { label: "GitHub", val: "silently-feel", href: "https://github.com/silently-feel" },
+                { label: "GitHub", val: "silent-coder-dev", href: "https://github.com/silent-coder-dev" },
                 { label: "Location", val: "Mumbai, India", href: null },
                 { label: "Availability", val: "Immediate / Open to Roles", href: null }
               ].map((item, idx) => (
