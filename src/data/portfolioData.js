@@ -86,7 +86,7 @@ export const projectsData = [
   -H "Content-Type: application/json" \\
   -d '{"title":"Login Bug","priority":"HIGH"}'`,
     github: "https://github.com/silent-coder-dev/satyam-portfolio",
-    live: "https://support-desk-crm-qs00.onrender.com/tickets"
+    live: "https://support-desk-crm-qs00.onrender.com/"
   },
   {
     title: "NutriScan — Food Health & Sustainability Scanner",
