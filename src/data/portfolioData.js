@@ -71,7 +71,7 @@ export const projectsData = [
     subtitle: "Full-Stack Ticketing & Media Management Application",
     badge: "Production Live",
     badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
-    route: "support-desk-crm-qs00.onrender.com/tickets",
+    route: "support-desk-crm-qs00.onrender.com",
     description:
       "Full-stack CRM web application with role-based agent authentication, secure image uploads via Cloudinary, and relational database management deployed live on Render.",
     tags: ["Java", "Spring Boot", "Spring Security", "MySQL", "Hibernate", "Cloudinary", "Docker", "Render"],
@@ -82,7 +82,7 @@ export const projectsData = [
       "Configured automatic email alerts upon ticket creation using Gmail SMTP.",
       "Containerized the entire application using Docker and deployed it live to Render."
     ],
-    curl: `curl -X POST https://support-desk-crm-qs00.onrender.com/tickets \\
+    curl: `curl -X POST https://support-desk-crm-qs00.onrender.com \\
   -H "Content-Type: application/json" \\
   -d '{"title":"Login Bug","priority":"HIGH"}'`,
     github: "https://github.com/silent-coder-dev/satyam-portfolio",
