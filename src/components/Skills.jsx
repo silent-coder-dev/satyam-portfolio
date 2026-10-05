@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaCodeBranch } from "react-icons/fa";
 import { skillGroups, personalInfo } from "../data/portfolioData";
@@ -30,14 +30,22 @@ function AnimatedCounter({ target }) {
   return <span>{val}+</span>;
 }
 
-export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }) {
+export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered, theme }) {
+  const isDark = theme === "dark";
+
   return (
     <section id="skills" className="space-y-8">
       <div className="text-center max-w-xl mx-auto space-y-2">
-        <span className="text-xs uppercase tracking-widest font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-3.5 py-1 rounded-full">
+        <span className={`text-xs uppercase tracking-widest font-mono px-3.5 py-1 rounded-full border ${
+          isDark
+            ? "text-cyan-400 bg-cyan-950/60 border-cyan-500/30"
+            : "text-cyan-700 bg-cyan-50 border-cyan-200"
+        }`}>
           Tech Stack
         </span>
-        <h2 className="text-3xl font-extrabold text-white">Skills &amp; Technologies</h2>
+        <h2 className={`text-3xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>
+          Skills &amp; Technologies
+        </h2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -45,7 +53,9 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
           {skillGroups.map((group, gIdx) => (
             <div
               key={gIdx}
-              className="p-6 sm:p-7 rounded-2xl bg-[#080d1a]/70 border border-slate-800/80 space-y-4"
+              className={`p-6 sm:p-7 rounded-2xl border space-y-4 ${
+                isDark ? "bg-[#080d1a]/70 border-slate-800/80" : "bg-white/80 border-slate-200 shadow-lg shadow-sky-100/60"
+              }`}
             >
               <h3 className="text-xs font-bold text-cyan-300 uppercase font-mono tracking-wider">
                 {group.category}
@@ -53,11 +63,13 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
               <div className="space-y-3.5">
                 {group.skills.map((skill, sIdx) => (
                   <div key={sIdx} className="space-y-1">
-                    <div className="flex justify-between text-xs font-semibold text-slate-300">
+                    <div className={`flex justify-between text-xs font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                       <span>{skill.name}</span>
                       <span className="text-cyan-400 font-mono">{skill.level}%</span>
                     </div>
-                    <div className="w-full h-2 rounded-full bg-slate-900 overflow-hidden border border-slate-800">
+                    <div className={`w-full h-2 rounded-full overflow-hidden border ${
+                      isDark ? "bg-slate-900 border-slate-800" : "bg-slate-100 border-slate-200"
+                    }`}>
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
@@ -72,9 +84,10 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
             </div>
           ))}
 
-          {/* Interactive Commit Activity Strip */}
-          <div className="p-4 rounded-2xl bg-[#080d1a]/70 border border-slate-800/80 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+          <div className={`p-4 rounded-2xl border flex items-center justify-between ${
+            isDark ? "bg-[#080d1a]/70 border-slate-800/80" : "bg-white/80 border-slate-200 shadow-lg shadow-sky-100/60"
+          }`}>
+            <div className={`flex items-center gap-2 text-xs font-mono ${isDark ? "text-slate-300" : "text-slate-700"}`}>
               <FaCodeBranch className="text-cyan-400" />
               <span>Production Pipeline Status:</span>
             </div>
@@ -93,7 +106,11 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
             onMouseEnter={() => setCursorHovered(true)}
             onMouseLeave={() => setCursorHovered(false)}
             whileHover={{ y: -4, scale: 1.02 }}
-            className="group block p-6 rounded-2xl bg-[#080d1a]/70 border border-slate-800/80 hover:border-amber-500/50 transition duration-300 relative overflow-hidden shadow-lg hover:shadow-amber-500/10 cursor-pointer"
+            className={`group block p-6 rounded-2xl border transition duration-300 relative overflow-hidden shadow-lg cursor-pointer ${
+              isDark
+                ? "bg-[#080d1a]/70 border-slate-800/80 hover:border-amber-500/50 hover:shadow-amber-500/10"
+                : "bg-white/80 border-slate-200 shadow-amber-100/80 hover:border-amber-300"
+            }`}
           >
             <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-[9px] font-mono text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
@@ -105,17 +122,17 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
                 LC
               </div>
               <div className="flex items-center gap-1">
-                <h4 className="text-sm font-bold text-white group-hover:text-amber-400 transition">
+                <h4 className={`text-sm font-bold group-hover:text-amber-400 transition ${isDark ? "text-white" : "text-slate-900"}`}>
                   LeetCode
                 </h4>
-                <FaExternalLinkAlt size={10} className="text-slate-500 group-hover:text-amber-400 transition" />
+                <FaExternalLinkAlt size={10} className={isDark ? "text-slate-500 group-hover:text-amber-400" : "text-slate-400 group-hover:text-amber-400"} />
               </div>
-              <p className="text-xs text-slate-500 font-mono">@{personalInfo.leetcodeUsername}</p>
+              <p className={`text-xs font-mono ${isDark ? "text-slate-500" : "text-slate-500"}`}>@{personalInfo.leetcodeUsername}</p>
               <div className="pt-2">
-                <span className="text-3xl font-extrabold text-white group-hover:text-amber-300 transition">
+                <span className={`text-3xl font-extrabold group-hover:text-amber-300 transition ${isDark ? "text-white" : "text-slate-900"}`}>
                   <AnimatedCounter target={leetcodeSolved} />
                 </span>
-                <span className="block text-[11px] font-mono text-slate-400 uppercase">
+                <span className={`block text-[11px] font-mono uppercase ${isDark ? "text-slate-400" : "text-slate-500"}`}>
                   DSA Problems Solved
                 </span>
               </div>
@@ -129,7 +146,11 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
             onMouseEnter={() => setCursorHovered(true)}
             onMouseLeave={() => setCursorHovered(false)}
             whileHover={{ y: -4, scale: 1.02 }}
-            className="group block p-6 rounded-2xl bg-[#080d1a]/70 border border-slate-800/80 hover:border-cyan-500/50 transition duration-300 relative overflow-hidden shadow-lg hover:shadow-cyan-500/10 cursor-pointer"
+            className={`group block p-6 rounded-2xl border transition duration-300 relative overflow-hidden shadow-lg cursor-pointer ${
+              isDark
+                ? "bg-[#080d1a]/70 border-slate-800/80 hover:border-cyan-500/50 hover:shadow-cyan-500/10"
+                : "bg-white/80 border-slate-200 shadow-cyan-100/80 hover:border-cyan-300"
+            }`}
           >
             <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-[9px] font-mono text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
@@ -141,17 +162,17 @@ export default function Skills({ leetcodeSolved, githubRepos, setCursorHovered }
                 <FaGithub size={22} />
               </div>
               <div className="flex items-center gap-1">
-                <h4 className="text-sm font-bold text-white group-hover:text-cyan-400 transition">
+                <h4 className={`text-sm font-bold group-hover:text-cyan-400 transition ${isDark ? "text-white" : "text-slate-900"}`}>
                   GitHub
                 </h4>
-                <FaExternalLinkAlt size={10} className="text-slate-500 group-hover:text-cyan-400 transition" />
+                <FaExternalLinkAlt size={10} className={isDark ? "text-slate-500 group-hover:text-cyan-400" : "text-slate-400 group-hover:text-cyan-400"} />
               </div>
-              <p className="text-xs text-slate-500 font-mono">@{personalInfo.githubUsername}</p>
+              <p className={`text-xs font-mono ${isDark ? "text-slate-500" : "text-slate-500"}`}>@{personalInfo.githubUsername}</p>
               <div className="pt-2">
-                <span className="text-3xl font-extrabold text-white group-hover:text-cyan-300 transition">
+                <span className={`text-3xl font-extrabold group-hover:text-cyan-300 transition ${isDark ? "text-white" : "text-slate-900"}`}>
                   <AnimatedCounter target={githubRepos} />
                 </span>
-                <span className="block text-[11px] font-mono text-slate-400 uppercase">
+                <span className={`block text-[11px] font-mono uppercase ${isDark ? "text-slate-400" : "text-slate-500"}`}>
                   Public Repositories
                 </span>
               </div>

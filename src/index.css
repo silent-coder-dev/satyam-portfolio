@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary-color: #22d3ee;
+  --primary-rgb: 34, 211, 238;
+}
+
+.text-cyan-300,
+.text-cyan-400,
+.text-cyan-500,
+.text-cyan-600,
+.text-cyan-700 {
+  color: var(--primary-color) !important;
+}
+
+.hover\:text-cyan-400:hover,
+.hover\:text-cyan-500:hover,
+.hover\:text-cyan-700:hover {
+  color: var(--primary-color) !important;
+}
+
+.bg-cyan-400,
+.bg-cyan-500 {
+  background-color: var(--primary-color) !important;
+}
+
+.from-cyan-400,
+.from-cyan-500 {
+  --tw-gradient-from: var(--primary-color) var(--tw-gradient-from-position);
+}
+
+.border-cyan-500 {
+  border-color: var(--primary-color) !important;
+}
+
+.ambient-orb {
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.ambient-orb-one {
+  animation: ambient-drift-one 20s ease-in-out infinite alternate;
+}
+
+.ambient-orb-two {
+  animation: ambient-drift-two 25s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-drift-one {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.9);
+  }
+  to {
+    transform: translate3d(16vw, 10vh, 0) scale(1.2);
+  }
+}
+
+@keyframes ambient-drift-two {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(-14vw, -12vh, 0) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

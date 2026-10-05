@@ -1,73 +1,98 @@
-# ⚡ Satyam Singh — Personal Portfolio
+# Satyam Singh — Developer Portfolio
 
-<div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=06B6D4&center=true&vCenter=true&width=550&lines=Satyam+Singh+%7C+Software+Developer;Java+%26+Spring+Boot+Backend+Engineer;React+%2B+Tailwind+CSS+%2B+Framer+Motion;Building+Clean%2C+Reliable+Web+Solutions" alt="Typing SVG" />
-</div>
+A responsive personal portfolio built with React and Vite. It presents Satyam's background, skills, featured projects, education, live profile metrics, and contact details in an animated interface with light and dark themes.
 
-<br/>
+**Live portfolio:** [silently-code.vercel.app](https://silently-code.vercel.app/)
 
-<p align="center">
-  A high-end, responsive personal portfolio website engineered to showcase backend architecture depth, full-stack systems, live coding statistics, and contact workflows.
-</p>
+## Features
 
-<p align="center">
-  <a href="https://silently-code.vercel.app/"><strong>Explore The Live Site »</strong></a>
-</p>
+- **Responsive portfolio sections:** introduction, metrics, strengths, skills, projects, education, and contact.
+- **Light and dark themes:** follows the visitor's system preference initially and remembers the chosen mode.
+- **Accent color picker:** offers separate color palettes for light and dark mode. Accent selections reset to the default when the page is refreshed; shuffle selects a temporary random accent.
+- **Animated interface:** terminal-style loading screen, scroll progress bar, cursor-following particle canvas, ambient background glow, animated cards, and interactive project cards.
+- **Motion accessibility:** cursor and ambient effects are disabled for reduced-motion preferences; the particle field is reduced and static.
+- **Project showcases:** descriptions, technology tags, repository/live links, project screenshots, and an optional copyable cURL example.
+- **Command palette:** press `Ctrl+K` (or `⌘K` on macOS) to find navigation and project actions; press `Esc` to close it.
+- **Profile metrics:** attempts to retrieve public repository and LeetCode totals, with fallback values if the services are unavailable.
+- **Contact and convenience actions:** Formspree contact form, email-copy buttons, resume download, and optional interface sounds.
 
----
+## Tech stack
 
-## 🛠️ Built With
+- React 18
+- Vite 5
+- Tailwind CSS
+- Framer Motion
+- React Icons
+- HTML Canvas API
+- Formspree for contact form submissions
 
-* **Frontend:** React.js, Vite
-* **Styling:** Tailwind CSS
-* **Animations:** Framer Motion
-* **Interactive Canvas:** HTML5 Canvas API (Dynamic Particle Mesh with Cursor Tethering)
-* **Form Infrastructure:** Formspree API (Direct Gmail Delivery)
-* **Icons:** React Icons
+## Run locally
 
----
+Prerequisites: Node.js 18 or later and npm.
 
-## ✨ Key Features
-
-- **Interactive Cursor-Tethered Mesh:** Custom HTML5 canvas engine rendering ambient node particles that dynamically snap and connect to the cursor.
-- **Terminal Loading Sequence:** Retro developer terminal intro sequence typing out identity credentials.
-- **Real-time Metrics Synchronization:** Live statistics dynamically fetched from GitHub and LeetCode APIs on runtime.
-- **Backend Architecture Showcase:** MacOS terminal framed project presentations with copyable cURL snippets for REST API verification.
-- **Direct Email Transmission:** Asynchronous contact dispatch pipeline powered by Formspree.
-- **Resume Acquisition:** One-click CV download pipeline directly delivering the verified PDF profile.
-
----
-
-## 🚀 Getting Started Locally
-
-Prerequisites: Node.js (v18 or higher) and npm installed.
-
-### 1. Clone the repository
-```bash
-git clone [https://github.com/silent-coder-dev/satyam-portfolio.git](https://github.com/silent-coder-dev/satyam-portfolio.git)
-cd satyam-portfolio
-2. Install dependencies
-Bash
+```powershell
 npm install
-3. Run development server
-Bash
 npm run dev
-The site will be live locally at http://localhost:5173.
+```
 
-📦 Production Build
-To generate an optimized static production bundle:
+Open the local URL printed by Vite, usually `http://localhost:5173`.
 
-Bash
-npm run build
-👤 Author
-Satyam Singh
+## Available commands
 
-GitHub: @silent-coder-dev
+```powershell
+npm run dev      # Start the local development server
+npm run build    # Create a production build in dist/
+npm run preview  # Preview the production build locally
+npm run lint     # Run ESLint
+```
 
-LeetCode: @silently_code
+## Project structure
 
-LinkedIn: Satyam Singh
+```text
+public/
+  ai-resume-builder.png   # AI Resume Builder project screenshot
+  supportdesk-crm.png     # SupportDesk CRM project screenshot
+  nutriscan.png           # NutriScan project screenshot
+  RESUME.pdf              # Downloadable resume
+  avatar.jpg              # Portfolio avatar
+  favicon.jpg             # Browser favicon / avatar fallback
+src/
+  components/             # Page sections and interactive UI components
+  data/portfolioData.js   # Portfolio text, contact details, skills, and projects
+  utils/                  # Theme color and audio utilities
+  App.jsx                 # Application state and page composition
+  index.css               # Tailwind entry point and global motion/theme styles
+```
 
-Email: satyam.singh261103@gmail.com
+## Update portfolio content and images
 
+- Edit `src/data/portfolioData.js` to update the profile, metrics, skills, and project details.
+- Replace the downloadable resume at `public/RESUME.pdf`. The download controls use the same case-sensitive path, `/RESUME.pdf`.
+- Project screenshots are configured in each project's `image` field in `src/data/portfolioData.js`. Keep these filenames in `public/`, or change the field to match your new asset.
+- The contact form endpoint and public profile links are configured in `personalInfo` in `src/data/portfolioData.js`.
 
+Use genuine screenshots of your own projects and ensure they are optimized for the web. A 16:9 image is a good fit for the project preview cards.
+
+## Live metrics and service availability
+
+The portfolio requests the GitHub public repository count and LeetCode solved total from external services. Those services can rate-limit or block browser requests (including through CORS); if a request fails, the portfolio keeps its fallback metric rather than blocking the page.
+
+Contact form delivery depends on the Formspree endpoint configured in `src/data/portfolioData.js`.
+
+## Production deployment
+
+The app builds to the static `dist/` directory. For Vercel, connect the repository and use:
+
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+
+The same build output can be hosted by any static hosting provider that supports Vite-built single-page applications.
+
+## Maintainer
+
+**Satyam Singh**
+
+- [GitHub](https://github.com/silent-coder-dev)
+- [LinkedIn](https://www.linkedin.com/in/satyam-singh-05b369376/)
+- [LeetCode](https://leetcode.com/u/silently_code/)
+- [Email](mailto:satyam.singh261103@gmail.com)

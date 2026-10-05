@@ -1,16 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-export default function ParticleCanvas() {
+export default function ParticleCanvas({ theme, activeColor }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     let animationFrameId;
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isSmallScreen = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+    const [red, green, blue] = hexToRgb(activeColor);
 
     const mouse = { x: null, y: null, radius: 140 };
 
@@ -31,7 +35,7 @@ export default function ParticleCanvas() {
     window.addEventListener("mouseleave", handleMouseLeave);
     window.addEventListener("resize", handleResize);
 
-    const particleCount = width > 768 ? 65 : 28;
+    const particleCount = prefersReducedMotion ? 24 : isSmallScreen ? 40 : 105;
     const particles = [];
 
     for (let i = 0; i < particleCount; i++) {
@@ -59,17 +63,17 @@ export default function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(6, 182, 212, 0.45)";
+        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${theme === "dark" ? 0.45 : 0.32})`;
         ctx.fill();
 
-        if (mouse.x !== null && mouse.y !== null) {
+        if (!isSmallScreen && mouse.x !== null && mouse.y !== null) {
           const mouseDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
           if (mouseDist < mouse.radius) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x, mouse.y);
             const opacity = 0.55 * (1 - mouseDist / mouse.radius);
-            ctx.strokeStyle = `rgba(6, 182, 212, ${opacity})`;
+            ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
             ctx.lineWidth = 1.1;
             ctx.stroke();
           }
@@ -82,14 +86,16 @@ export default function ParticleCanvas() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(6, 182, 212, ${0.18 * (1 - dist / 105)})`;
+            ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${0.18 * (1 - dist / 105)})`;
             ctx.lineWidth = 0.7;
             ctx.stroke();
           }
         }
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
     render();
@@ -100,7 +106,7 @@ export default function ParticleCanvas() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [activeColor, theme]);
 
   return (
     <canvas
@@ -108,4 +114,11 @@ export default function ParticleCanvas() {
       className="fixed inset-0 pointer-events-none z-10 w-full h-full"
     />
   );
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+  const normalized = value.length === 3 ? value.split("").map((character) => character + character).join("") : value;
+  const parsed = Number.parseInt(normalized, 16);
+  return [(parsed >> 16) & 255, (parsed >> 8) & 255, parsed & 255];
 }

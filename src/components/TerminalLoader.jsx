@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function TerminalLoader({ fullName }) {
+export default function TerminalLoader({ fullName, onComplete }) {
   const [loading, setLoading] = useState(true);
   const [typedName, setTypedName] = useState("");
 
   useEffect(() => {
     let index = 0;
+    let dismissTimer;
     const interval = setInterval(() => {
       if (index <= fullName.length) {
         setTypedName(fullName.slice(0, index));
         index++;
       } else {
         clearInterval(interval);
-        setTimeout(() => setLoading(false), 700);
+        dismissTimer = setTimeout(() => {
+          setLoading(false);
+        }, 700);
       }
     }, 75);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(dismissTimer);
+    };
   }, [fullName]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={onComplete}>
       {loading && (
         <motion.div
           key="loader"

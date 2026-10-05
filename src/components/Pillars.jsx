@@ -1,8 +1,9 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FaServer, FaRobot, FaDocker } from "react-icons/fa";
 
-export default function Pillars() {
+export default function Pillars({ theme }) {
+  const isDark = theme === "dark";
+
   const cards = [
     {
       icon: <FaServer className="text-cyan-400" size={20} />,
@@ -24,10 +25,16 @@ export default function Pillars() {
   return (
     <section className="space-y-6">
       <div className="text-center max-w-xl mx-auto space-y-2">
-        <span className="text-xs uppercase tracking-widest font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-3.5 py-1 rounded-full">
+        <span className={`text-xs uppercase tracking-widest font-mono px-3.5 py-1 rounded-full border ${
+          isDark
+            ? "text-cyan-400 bg-cyan-950/60 border-cyan-500/30"
+            : "text-cyan-700 bg-cyan-50 border-cyan-200"
+        }`}>
           What I Bring
         </span>
-        <h2 className="text-3xl font-extrabold text-white">Strong Fundamentals &amp; Quick Learning</h2>
+        <h2 className={`text-3xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>
+          Strong Fundamentals &amp; Quick Learning
+        </h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
@@ -36,13 +43,17 @@ export default function Pillars() {
             key={idx}
             whileHover={{ y: -4, borderColor: "rgba(14, 165, 233, 0.5)" }}
             transition={{ duration: 0.2 }}
-            className="p-6 rounded-2xl bg-[#080d1a]/60 border border-slate-800/80 shadow-lg hover:bg-[#0c1426] transition"
+            className={`p-6 rounded-2xl border shadow-lg transition ${
+              isDark ? "bg-[#080d1a]/60 border-slate-800/80 hover:bg-[#0c1426]" : "bg-white/80 border-slate-200 shadow-sky-100/60 hover:bg-slate-50"
+            }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-cyan-950/50 border border-cyan-500/30 flex items-center justify-center mb-4">
+            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${
+              isDark ? "bg-cyan-950/50 border-cyan-500/30" : "bg-cyan-50 border-cyan-200"
+            }`}>
               {card.icon}
             </div>
-            <h3 className="text-base font-bold text-white mb-2">{card.title}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{card.desc}</p>
+            <h3 className={`text-base font-bold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}>{card.title}</h3>
+            <p className={`text-xs leading-relaxed ${isDark ? "text-slate-400" : "text-slate-600"}`}>{card.desc}</p>
           </motion.div>
         ))}
       </div>

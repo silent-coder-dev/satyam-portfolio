@@ -50,6 +50,7 @@ export const projectsData = [
   {
     title: "AI Resume Builder — Smart ATS Resume Generator",
     subtitle: "Full-Stack AI Application with Real-Time Preview & Export",
+    image: "/ai-resume-builder.png",
     badge: "Production Live",
     badgeStyle: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
     route: "ai-resume-builder-silent.vercel.app",
@@ -69,6 +70,7 @@ export const projectsData = [
   {
     title: "SupportDesk — Customer Support CRM",
     subtitle: "Full-Stack Ticketing & Media Management Application",
+    image: "/supportdesk-crm.png",
     badge: "Production Live",
     badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
     route: "support-desk-crm-qs00.onrender.com",
@@ -91,9 +93,10 @@ export const projectsData = [
   {
     title: "NutriScan — Food Health & Sustainability Scanner",
     subtitle: "Nutritional Assessment & Ecological Scoring Web Platform",
+    image: "/nutriscan.png",
     badge: "Web Platform",
     badgeStyle: "bg-teal-500/10 text-teal-400 border-teal-500/30",
-    route: "api.nutriscan.internal/v1/analyze",
+    route: "nutri-scanner-one.vercel.app",
     description:
       "Full-stack web application built to analyze food products, display nutritional scores, and evaluate environmental impact.",
     tags: ["React.js", "Node.js", "Express.js", "REST APIs", "MongoDB"],
@@ -104,6 +107,6 @@ export const projectsData = [
     ],
     curl: null,
     github: "https://github.com/silent-coder-dev",
-    live: null
+    live: "https://nutri-scanner-one.vercel.app/"
   }
 ];
