@@ -67,7 +67,7 @@ src/
 ## Update portfolio content and images
 
 - Edit `src/data/portfolioData.js` to update the profile, metrics, skills, and project details.
-- Replace the downloadable resume at `public/resume.pdf`. Download links use the same case-sensitive path, `/resume.pdf`.
+- Replace the resume at `public/resume.pdf`. The portfolio opens it in a new browser tab, where visitors can review it and download it from the browser's PDF viewer.
 - Project screenshots are configured in each project's `image` field in `src/data/portfolioData.js`. Keep these filenames in `public/`, or change the field to match your new asset.
 - The contact form endpoint and public profile links are configured in `personalInfo` in `src/data/portfolioData.js`.
 

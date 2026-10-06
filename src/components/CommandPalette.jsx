@@ -43,15 +43,10 @@ export default function CommandPalette({ isOpen, setIsOpen, theme }) {
     },
     {
       id: "download-cv",
-      title: "Download Verified Resume (PDF)",
+      title: "Open Resume PDF",
       category: "Actions",
       icon: <FaDownload className="text-teal-400" />,
-      run: () => {
-        const link = document.createElement("a");
-        link.href = "/resume.pdf";
-        link.download = "Satyam_Singh_Resume.pdf";
-        link.click();
-      }
+      run: () => window.open("/resume.pdf?v=20261006", "_blank", "noopener,noreferrer")
     },
     {
       id: "contact",

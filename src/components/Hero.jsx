@@ -51,8 +51,9 @@ export default function Hero({ personalInfo, copyEmail, copiedEmail, setCursorHo
             </a>
 
             <a
-              href="/resume.pdf"
-              download="Satyam_Singh_Resume.pdf"
+              href="/resume.pdf?v=20261006"
+              target="_blank"
+              rel="noreferrer"
               onMouseEnter={() => setCursorHovered(true)}
               onMouseLeave={() => setCursorHovered(false)}
               className={`px-5 py-3 rounded-xl border font-medium text-xs tracking-wide transition flex items-center gap-2 active:scale-95 shadow-md ${
@@ -61,7 +62,7 @@ export default function Hero({ personalInfo, copyEmail, copiedEmail, setCursorHo
                   : "bg-white hover:bg-slate-50 border-cyan-200 text-cyan-700 hover:text-cyan-900 shadow-cyan-200/60"
               }`}
             >
-              <FaDownload size={12} className="text-cyan-400" /> Download CV
+              <FaDownload size={12} className="text-cyan-400" /> View / Download CV
             </a>
 
             <button
