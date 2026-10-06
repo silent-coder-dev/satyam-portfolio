@@ -51,7 +51,7 @@ export default function Hero({ personalInfo, copyEmail, copiedEmail, setCursorHo
             </a>
 
             <a
-              href="/RESUME.pdf"
+              href="/resume.pdf"
               download="Satyam_Singh_Resume.pdf"
               onMouseEnter={() => setCursorHovered(true)}
               onMouseLeave={() => setCursorHovered(false)}

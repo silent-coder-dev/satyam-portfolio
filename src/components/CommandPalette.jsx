@@ -48,7 +48,7 @@ export default function CommandPalette({ isOpen, setIsOpen, theme }) {
       icon: <FaDownload className="text-teal-400" />,
       run: () => {
         const link = document.createElement("a");
-        link.href = "/RESUME.pdf";
+        link.href = "/resume.pdf";
         link.download = "Satyam_Singh_Resume.pdf";
         link.click();
       }
