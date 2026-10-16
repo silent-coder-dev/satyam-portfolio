@@ -1,23 +1,65 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Tab Favicon (Silent Coder Avatar) -->
-    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
-    
-    <!-- Primary Meta Tags -->
-    <title>Satyam Singh | Software Developer &amp; Backend Engineer</title>
-    <meta name="description" content="Portfolio of Satyam Singh — Computer Engineer & Backend Developer specializing in Java, Spring Boot, MySQL, and Docker." />
-    <meta name="theme-color" content="#030712" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Satyam Singh · Java &amp; Spring Boot Developer</title>
+    <meta name="description" content="Satyam Singh is a backend developer in Mumbai working with Java, Spring Boot and SQL, who also vibe codes with AI tools. Projects include SupportDesk, NutriScan and AI Resume Studio." />
+    <meta name="author" content="Satyam Singh" />
+    <link rel="canonical" href="https://silently-code.vercel.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/avatar.jpg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://silently-code.vercel.app/" />
+    <meta property="og:title" content="Satyam Singh · Java & Spring Boot Developer" />
+    <meta property="og:description" content="Backend developer in Mumbai. Java, Spring Boot, SQL, and a few projects that are live on the internet." />
+    <meta property="og:image" content="https://silently-code.vercel.app/avatar.jpg" />
+    <meta name="twitter:card" content="summary" />
+
+    <meta name="theme-color" content="#0c0c0b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f1ec" media="(prefers-color-scheme: light)" />
+
+    <!-- Set the theme before first paint so there is no flash of the wrong colours. -->
+    <script>
+      (function () {
+        var theme = "dark";
+        try {
+          var stored = localStorage.getItem("portfolio-theme");
+          if (stored === "light" || stored === "dark") theme = stored;
+          else if (window.matchMedia("(prefers-color-scheme: light)").matches) theme = "light";
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="/avatar.webp" type="image/webp" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Satyam Singh",
+        "jobTitle": "Software Developer",
+        "address": { "@type": "PostalAddress", "addressLocality": "Mumbai", "addressCountry": "IN" },
+        "alumniOf": "University of Mumbai",
+        "url": "https://silently-code.vercel.app/",
+        "sameAs": [
+          "https://github.com/silent-coder-dev",
+          "https://www.linkedin.com/in/satyam-singh-05b369376/",
+          "https://leetcode.com/u/silently_code/"
+        ]
+      }
+    </script>
   </head>
-  <body class="bg-[#030712] text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-black">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

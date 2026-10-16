@@ -2,75 +2,182 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #22d3ee;
-  --primary-rgb: 34, 211, 238;
-}
-
-.text-cyan-300,
-.text-cyan-400,
-.text-cyan-500,
-.text-cyan-600,
-.text-cyan-700 {
-  color: var(--primary-color) !important;
-}
-
-.hover\:text-cyan-400:hover,
-.hover\:text-cyan-500:hover,
-.hover\:text-cyan-700:hover {
-  color: var(--primary-color) !important;
-}
-
-.bg-cyan-400,
-.bg-cyan-500 {
-  background-color: var(--primary-color) !important;
-}
-
-.from-cyan-400,
-.from-cyan-500 {
-  --tw-gradient-from: var(--primary-color) var(--tw-gradient-from-position);
-}
-
-.border-cyan-500 {
-  border-color: var(--primary-color) !important;
-}
-
-.ambient-orb {
-  filter: blur(90px);
-  will-change: transform;
-}
-
-.ambient-orb-one {
-  animation: ambient-drift-one 20s ease-in-out infinite alternate;
-}
-
-.ambient-orb-two {
-  animation: ambient-drift-two 25s ease-in-out infinite alternate;
-}
-
-@keyframes ambient-drift-one {
-  from {
-    transform: translate3d(0, 0, 0) scale(0.9);
+@layer base {
+  /* Channels only, so Tailwind can add alpha: bg-fg/10, text-accent/80, etc. */
+  :root,
+  [data-theme="dark"] {
+    --bg: 12 12 11;
+    --surface: 22 22 20;
+    --fg: 237 235 230;
+    --muted: 156 154 147;
+    --faint: 104 102 97;
+    --accent: 255 107 61;
+    --grain-opacity: 0.045;
+    color-scheme: dark;
   }
+
+  [data-theme="light"] {
+    --bg: 243 241 236;
+    --surface: 250 249 246;
+    --fg: 23 23 21;
+    --muted: 92 90 84;
+    --faint: 146 143 136;
+    --accent: 185 61 18;
+    --grain-opacity: 0.06;
+    color-scheme: light;
+  }
+
+  html {
+    background-color: rgb(var(--bg));
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgb(var(--accent));
+    color: rgb(var(--bg));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-10;
+  }
+
+  .label {
+    @apply font-mono text-[12px] leading-none tracking-[0.02em] text-muted;
+  }
+
+  /* Underline that draws in from the left on hover. */
+  .link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+  }
+  .link:hover,
+  .link:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .field {
+    @apply w-full border-0 border-b border-fg/15 bg-transparent px-0 pb-3 pt-2 text-[16px] text-fg outline-none transition-colors placeholder:text-faint focus:border-accent;
+    border-radius: 0;
+  }
+}
+
+/* Film grain over everything. Static, so it costs nothing after the first paint. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The "Visit site" label that follows the cursor over project screenshots. Mouse only. */
+.cursor-label {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cursor-label {
+    display: flex;
+  }
+  .media-hover {
+    cursor: none;
+  }
+}
+
+/* Brief cross-fade when switching themes. */
+.theme-switching,
+.theme-switching * {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease !important;
+}
+
+.status-dot {
+  position: relative;
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: inherit;
+  animation: status-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes status-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.marquee-track {
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
   to {
-    transform: translate3d(16vw, 10vh, 0) scale(1.2);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-@keyframes ambient-drift-two {
-  from {
-    transform: translate3d(0, 0, 0) scale(1.1);
+.scroll-line {
+  animation: scroll-line 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  transform-origin: top;
+}
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
   }
-  to {
-    transform: translate3d(-14vw, -12vh, 0) scale(0.9);
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

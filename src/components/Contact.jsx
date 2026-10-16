@@ -1,168 +1,177 @@
 import { useState } from "react";
-import { FaPaperPlane, FaSpinner } from "react-icons/fa";
-import { personalInfo } from "../data/portfolioData";
+import { ArrowUpRight, Check, Copy, LoaderCircle } from "lucide-react";
+import ParticleCanvas from "./ParticleCanvas";
+import Reveal from "./Reveal";
+import useCopy from "../hooks/useCopy";
+import { personalInfo, sectionNumber } from "../data/portfolioData";
 
-export default function Contact({ setCursorHovered, theme }) {
-  const isDark = theme === "dark";
-  const [formStatus, setFormStatus] = useState("idle");
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+const socials = [
+  { label: "GitHub", href: personalInfo.github },
+  { label: "LinkedIn", href: personalInfo.linkedin },
+  { label: "LeetCode", href: personalInfo.leetcode },
+];
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setFormStatus("submitting");
+const emptyForm = { name: "", email: "", message: "" };
 
+function ContactForm() {
+  const [status, setStatus] = useState("idle");
+  const [form, setForm] = useState(emptyForm);
+
+  const update = (field) => (event) => setForm((previous) => ({ ...previous, [field]: event.target.value }));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setStatus("sending");
     try {
       const response = await fetch(personalInfo.formspreeEndpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(formData)
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
       });
-
-      if (response.ok) {
-        setFormStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setFormStatus("idle"), 5000);
-      } else {
-        setFormStatus("error");
-      }
+      if (!response.ok) throw new Error(`Formspree responded with ${response.status}`);
+      setStatus("sent");
+      setForm(emptyForm);
     } catch {
-      setFormStatus("error");
+      setStatus("error");
     }
   };
 
-  const contactList = [
-    { label: "Email", val: personalInfo.email, href: `mailto:${personalInfo.email}` },
-    { label: "LinkedIn", val: "satyam-singh-05b369376", href: personalInfo.linkedin },
-    { label: "GitHub", val: personalInfo.githubUsername, href: personalInfo.github },
-    { label: "Location", val: personalInfo.location, href: null },
-    { label: "Availability", val: "Immediate / Open to Roles", href: null }
-  ];
-
   return (
-    <section id="contact" className="space-y-8">
-      <div className="text-center max-w-xl mx-auto space-y-2">
-        <span className={`text-xs uppercase tracking-widest font-mono px-3.5 py-1 rounded-full border ${
-          isDark ? "text-cyan-400 bg-cyan-950/60 border-cyan-500/30" : "text-cyan-700 bg-cyan-50 border-cyan-200"
-        }`}>
-          Contact
-        </span>
-        <h2 className={`text-3xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>Let&apos;s Connect</h2>
-        <p className={`text-xs ${isDark ? "text-slate-400" : "text-slate-600"}`}>
-          Actively looking for entry-level Software Developer / Java Backend roles. Send a message directly to my inbox!
-        </p>
+    <form onSubmit={handleSubmit} className="rounded-[18px] border border-fg/10 bg-surface p-6 sm:p-8">
+      <p className="text-[1.125rem] font-medium tracking-[-0.01em]">Or leave a message</p>
+      <p className="mt-1 text-[14px] text-muted">It goes straight to my inbox.</p>
+
+      <div className="mt-8 space-y-7">
+        <label className="block">
+          <span className="label">Name</span>
+          <input
+            type="text"
+            name="name"
+            autoComplete="name"
+            required
+            value={form.name}
+            onChange={update("name")}
+            className="field mt-1"
+          />
+        </label>
+        <label className="block">
+          <span className="label">Email</span>
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            required
+            value={form.email}
+            onChange={update("email")}
+            className="field mt-1"
+          />
+        </label>
+        <label className="block">
+          <span className="label">Message</span>
+          <textarea
+            name="message"
+            rows={4}
+            required
+            value={form.message}
+            onChange={update("message")}
+            className="field mt-1 resize-none"
+          />
+        </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <form
-          onSubmit={handleFormSubmit}
-          className={`p-7 rounded-3xl border space-y-4 shadow-xl relative ${
-            isDark ? "bg-[#080d1a]/60 border-slate-800/90" : "bg-white/80 border-slate-200 shadow-sky-100/60"
-          }`}
-        >
-          <div>
-            <label className={`block text-xs font-semibold mb-1 ${isDark ? "text-slate-300" : "text-slate-700"}`}>Name</label>
-            <input
-              type="text"
-              name="name"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Your Name"
-              className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:border-cyan-500 text-xs ${
-                isDark ? "bg-[#030712] border-slate-800 text-white" : "bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-500"
-              }`}
-            />
-          </div>
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="mt-9 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-fg text-[15px] font-medium text-bg transition-colors hover:bg-accent disabled:cursor-wait disabled:opacity-60"
+      >
+        {status === "sending" ? (
+          <>
+            <LoaderCircle size={16} className="animate-spin" /> Sending
+          </>
+        ) : (
+          "Send message"
+        )}
+      </button>
 
-          <div>
-            <label className={`block text-xs font-semibold mb-1 ${isDark ? "text-slate-300" : "text-slate-700"}`}>Email</label>
-            <input
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="your.email@example.com"
-              className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:border-cyan-500 text-xs ${
-                isDark ? "bg-[#030712] border-slate-800 text-white" : "bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-500"
-              }`}
-            />
-          </div>
+      <p role="status" aria-live="polite" className="mt-4 min-h-[1.25rem] text-center text-[14px]">
+        {status === "sent" && <span className="text-fg">Thanks, it&apos;s on its way. I&apos;ll reply by email.</span>}
+        {status === "error" && (
+          <span className="text-accent">
+            That didn&apos;t go through. Please email me at {personalInfo.email} instead.
+          </span>
+        )}
+      </p>
+    </form>
+  );
+}
 
-          <div>
-            <label className={`block text-xs font-semibold mb-1 ${isDark ? "text-slate-300" : "text-slate-700"}`}>Message</label>
-            <textarea
-              rows="4"
-              name="message"
-              required
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              placeholder="Your message..."
-              className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:border-cyan-500 text-xs ${
-                isDark ? "bg-[#030712] border-slate-800 text-white" : "bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-500"
-              }`}
-            />
-          </div>
+export default function Contact() {
+  const [copied, copy] = useCopy();
 
-          <button
-            type="submit"
-            disabled={formStatus === "submitting"}
-            onMouseEnter={() => setCursorHovered(true)}
-            onMouseLeave={() => setCursorHovered(false)}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs tracking-wide transition flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-cyan-500/20 cursor-pointer disabled:opacity-50"
-          >
-            {formStatus === "submitting" ? (
-              <>
-                <FaSpinner className="animate-spin" size={13} /> Sending...
-              </>
-            ) : (
-              <>
-                <FaPaperPlane size={12} /> Send Message
-              </>
-            )}
-          </button>
+  const copyEmail = async () => {
+    const ok = await copy(personalInfo.email);
+    if (!ok) window.location.href = `mailto:${personalInfo.email}`;
+  };
 
-          {formStatus === "success" && (
-            <p className="text-xs font-mono text-emerald-400 text-center pt-1">
-              &check; Thank you! Your message was sent directly to my email.
-            </p>
-          )}
-          {formStatus === "error" && (
-            <p className="text-xs font-mono text-rose-400 text-center pt-1">
-              &times; Something went wrong. Please email directly at {personalInfo.email}
-            </p>
-          )}
-        </form>
+  return (
+    <section id="contact" className="relative isolate overflow-hidden border-t border-fg/10">
+      <ParticleCanvas
+        variant="contact"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[75%] w-full [mask-image:linear-gradient(to_bottom,transparent,#000_45%,#000)]"
+      />
 
-        <div className="space-y-3">
-          {contactList.map((item, idx) => (
-            <div
-              key={idx}
-              className={`p-4 rounded-2xl border flex items-center justify-between transition ${
-                isDark ? "bg-[#080d1a]/60 border-slate-800/90 hover:border-cyan-500/30" : "bg-white/80 border-slate-200 shadow-sky-100/60 hover:border-cyan-300"
-              }`}
-            >
-              <span className={`text-xs font-medium ${isDark ? "text-slate-400" : "text-slate-600"}`}>{item.label}</span>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  onMouseEnter={() => setCursorHovered(true)}
-                  onMouseLeave={() => setCursorHovered(false)}
-                  className="text-xs font-semibold text-cyan-400 hover:underline"
-                >
-                  {item.val}
-                </a>
-              ) : (
-                <span className={`text-xs font-semibold ${isDark ? "text-slate-200" : "text-slate-800"}`}>{item.val}</span>
-              )}
-            </div>
-          ))}
+      <div className="page grid gap-16 py-24 sm:py-32 lg:grid-cols-12 lg:gap-10 lg:pb-44">
+        <div className="lg:col-span-6">
+          <Reveal>
+            <p className="label tabular-nums">{sectionNumber("contact")}</p>
+            <h2 className="mt-4 text-[clamp(3.5rem,1.6rem+7vw,8rem)] font-medium leading-[0.92] tracking-[-0.05em]">
+              Let&apos;s <span className="font-serif font-normal italic tracking-[-0.02em] text-accent">talk.</span>
+            </h2>
+          </Reveal>
+
+          <Reveal as="p" delay={0.05} className="mt-8 max-w-[44ch] text-[17px] leading-[1.65] text-muted">
+            If you&apos;re hiring for a junior backend or Java role, or you&apos;d like to ask about one of the
+            projects, email is the quickest way to reach me.
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-10">
+            <button type="button" onClick={copyEmail} className="group block text-left">
+              <span className="link break-words text-[clamp(1.2rem,0.85rem+1.6vw,2rem)] font-medium tracking-[-0.02em]">
+                {personalInfo.email}
+              </span>
+              <span className="label mt-3 flex items-center gap-2">
+                {copied ? <Check size={13} className="text-accent" /> : <Copy size={13} />}
+                <span aria-live="polite">{copied ? "Copied to clipboard" : "Click to copy"}</span>
+              </span>
+            </button>
+          </Reveal>
+
+          <Reveal delay={0.15} className="mt-12 flex flex-wrap gap-x-7 gap-y-3 text-[15px]">
+            {socials.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-1"
+              >
+                <span className="link">{social.label}</span>
+                <ArrowUpRight
+                  size={14}
+                  className="text-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
+            ))}
+            <a href={personalInfo.resume} download={personalInfo.resumeFileName} className="group inline-flex items-center gap-1">
+              <span className="link">Resume</span>
+              <span className="font-mono text-[11px] text-muted">PDF</span>
+            </a>
+          </Reveal>
         </div>
+
+        <Reveal delay={0.1} className="lg:col-span-5 lg:col-start-8">
+          <ContactForm />
+        </Reveal>
       </div>
     </section>
   );

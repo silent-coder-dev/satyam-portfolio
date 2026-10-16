@@ -1,171 +1,165 @@
+import { Fragment, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaTerminal, FaDownload, FaCopy, FaCheck, FaMapMarkerAlt } from "react-icons/fa";
+import { ArrowDown, ArrowUpRight, Check, Copy } from "lucide-react";
+import Magnetic from "./Magnetic";
+import ParticleCanvas from "./ParticleCanvas";
+import useCopy from "../hooks/useCopy";
+import { personalInfo, projects } from "../data/portfolioData";
+import { easeOutExpo } from "../utils/motion";
 
-export default function Hero({ personalInfo, copyEmail, copiedEmail, setCursorHovered, fadeInUp, theme }) {
-  const isDark = theme === "dark";
+const headline = [
+  { text: "Java" },
+  { text: "developer" },
+  { text: "building" },
+  { text: "backends" },
+  { text: "that" },
+  { text: "hold", serif: true },
+  { text: "up.", serif: true },
+];
+
+const formatTime = (timeZone) =>
+  new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone }).format(new Date());
+
+function LocalTime({ timeZone }) {
+  const [time, setTime] = useState(() => formatTime(timeZone));
+
+  useEffect(() => {
+    const id = window.setInterval(() => setTime(formatTime(timeZone)), 15000);
+    return () => window.clearInterval(id);
+  }, [timeZone]);
+
+  return <time className="tabular-nums">{time}</time>;
+}
+
+const fadeUp = (delay) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.9, delay, ease: easeOutExpo },
+});
+
+export default function Hero() {
+  const [copied, copy] = useCopy();
+  const latest = projects.find((project) => project.slug === "nutriscan");
+
+  const copyEmail = async () => {
+    const ok = await copy(personalInfo.email);
+    if (!ok) window.location.href = `mailto:${personalInfo.email}`;
+  };
 
   return (
-    <section id="about" className="pt-4">
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12"
-      >
-        <div className="flex-1 space-y-6 text-center lg:text-left">
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono shadow-sm ${
-            isDark
-              ? "bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 shadow-cyan-500/10"
-              : "bg-cyan-50 border border-cyan-200 text-cyan-700 shadow-cyan-200/50"
-          }`}>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            {personalInfo.subHeadline}
-          </div>
+    <section id="top" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
+      <ParticleCanvas
+        variant="hero"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full [mask-image:linear-gradient(to_bottom,transparent_0%,#000_42%,#000_82%,transparent_100%)]"
+      />
 
-          <div className="space-y-1">
-            <p className="text-sm font-mono text-cyan-400 tracking-wider">Hi there, I am</p>
-            <h1 className={`text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1] ${
-              isDark ? "text-white" : "text-slate-900"
-            }`}>
-              {personalInfo.name}.
-            </h1>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 tracking-tight pt-1">
-              {personalInfo.title}
-            </h2>
-          </div>
-
-          <p className={`text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 ${
-            isDark ? "text-slate-400" : "text-slate-600"
-          }`}>
-            {personalInfo.bio}
+      <div className="page flex flex-1 flex-col pb-8 pt-24 sm:pt-28">
+        <motion.div {...fadeUp(0.05)} className="flex items-center justify-between gap-4">
+          <p className="label flex items-center gap-2.5">
+            <span className="status-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            {personalInfo.availability}
           </p>
+          <p className="label hidden sm:block">
+            {personalInfo.location} · <LocalTime timeZone={personalInfo.timeZone} /> IST
+          </p>
+        </motion.div>
 
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-            <a
-              href="#projects"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs tracking-wide transition shadow-lg shadow-cyan-500/25 active:scale-95"
-            >
-              View My Work &rarr;
-            </a>
-
-            <a
-              href="/resume.pdf"
-              download="Satyam_Singh_Resume.pdf"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className={`px-5 py-3 rounded-xl border font-medium text-xs tracking-wide transition flex items-center gap-2 active:scale-95 shadow-md ${
-                isDark
-                  ? "bg-[#0b1222] hover:bg-[#111c35] border-cyan-500/40 text-cyan-300 hover:text-white shadow-cyan-950/50"
-                  : "bg-white hover:bg-slate-50 border-cyan-200 text-cyan-700 hover:text-cyan-900 shadow-cyan-200/60"
-              }`}
-            >
-              <FaDownload size={12} className="text-cyan-400" /> Download CV
-            </a>
-
-            <button
-              onClick={copyEmail}
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className={`px-4 py-3 rounded-xl border font-medium text-xs tracking-wide transition flex items-center gap-2 active:scale-95 cursor-pointer ${
-                isDark
-                  ? "bg-[#0b1222] hover:bg-[#111c35] border-slate-800 text-slate-300"
-                  : "bg-white hover:bg-slate-50 border-slate-200 text-slate-700"
-              }`}
-            >
-              {copiedEmail ? <FaCheck className="text-emerald-400" /> : <FaCopy />}
-              {copiedEmail ? "Copied!" : "Copy Email"}
-            </button>
-          </div>
-
-          <div className={`flex items-center justify-center lg:justify-start gap-3 pt-2 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noreferrer"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className={`p-3 rounded-xl border hover:text-cyan-400 hover:border-cyan-500/40 hover:scale-105 transition ${
-                isDark ? "bg-[#0b1222] border-slate-800" : "bg-white border-slate-200"
-              }`}
-              title="GitHub"
-            >
-              <FaGithub size={16} />
-            </a>
-            <a
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className={`p-3 rounded-xl border hover:text-cyan-400 hover:border-cyan-500/40 hover:scale-105 transition ${
-                isDark ? "bg-[#0b1222] border-slate-800" : "bg-white border-slate-200"
-              }`}
-              title="LinkedIn"
-            >
-              <FaLinkedin size={16} />
-            </a>
-            <a
-              href={personalInfo.leetcode}
-              target="_blank"
-              rel="noreferrer"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
-              className={`p-3 rounded-xl border hover:text-cyan-400 hover:border-cyan-500/40 hover:scale-105 transition ${
-                isDark ? "bg-[#0b1222] border-slate-800" : "bg-white border-slate-200"
-              }`}
-              title="LeetCode"
-            >
-              <FaTerminal size={15} />
-            </a>
-          </div>
-        </div>
-
-        <div className="relative shrink-0 group">
-          <div className="absolute -inset-1.5 bg-gradient-to-tr from-cyan-500/30 to-blue-600/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition duration-500" />
-          <div className={`relative w-64 h-72 sm:w-72 sm:h-80 rounded-3xl overflow-hidden border-2 p-2.5 shadow-2xl ${
-            isDark ? "border-cyan-500/30 bg-[#080d1a]" : "border-cyan-200 bg-white shadow-cyan-200/60"
-          }`}>
+        <div className="mt-14 sm:mt-16">
+          <motion.p {...fadeUp(0.1)} className="flex items-center gap-3 text-[15px] text-muted">
             <img
-              src="/avatar.jpg"
-              alt={personalInfo.name}
-              onError={(e) => {
-                e.target.src = "/favicon.jpg";
-              }}
-              className="w-full h-full rounded-2xl object-cover object-top filter contrast-105 group-hover:scale-105 transition duration-500"
+              src="/avatar.webp"
+              alt=""
+              width="36"
+              height="36"
+              className="h-9 w-9 rounded-full object-cover object-top ring-1 ring-fg/15"
             />
-            <div className="absolute inset-x-2.5 bottom-2.5 py-2 px-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent rounded-b-2xl text-center">
-              <p className="text-white font-mono font-bold text-xs tracking-wider">{personalInfo.name}</p>
-            </div>
-          </div>
+            <span>
+              <span className="text-fg">{personalInfo.name}</span> / Software developer
+            </span>
+          </motion.p>
 
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute -bottom-3 -left-3 px-3.5 py-1.5 rounded-full border shadow-xl text-[11px] font-mono flex items-center gap-1.5 backdrop-blur-md ${
-              isDark
-                ? "bg-[#080d1a]/95 border-cyan-500/30 text-slate-300"
-                : "bg-white/90 border-cyan-200 text-slate-700 shadow-cyan-100/80"
-            }`}
-          >
-            <FaMapMarkerAlt className="text-cyan-400" size={11} /> {personalInfo.location}
-          </motion.div>
+          <h1 className="mt-5 max-w-[13ch] text-[clamp(2.75rem,1.1rem+6vw,6rem)] font-medium leading-[0.98] tracking-[-0.045em]">
+            {headline.map((word, index) => (
+              <Fragment key={word.text}>
+                <span className="-mb-[0.14em] inline-block overflow-hidden pb-[0.14em] pr-[0.06em] align-bottom">
+                  <motion.span
+                    className={`inline-block ${word.serif ? "font-serif text-[1.08em] font-normal italic tracking-[-0.01em] text-accent" : ""}`}
+                    initial={{ y: "110%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: 1, delay: 0.15 + index * 0.05, ease: easeOutExpo }}
+                  >
+                    {word.text}
+                  </motion.span>
+                </span>
+                {index < headline.length - 1 && " "}
+              </Fragment>
+            ))}
+          </h1>
 
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute -top-3 -right-3 px-3.5 py-1.5 rounded-full border shadow-xl text-[11px] font-mono flex items-center gap-1.5 backdrop-blur-md ${
-              isDark
-                ? "bg-[#080d1a]/95 border-emerald-500/30 text-emerald-400"
-                : "bg-white/90 border-emerald-200 text-emerald-600 shadow-emerald-100/80"
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            {personalInfo.status}
+          <motion.p {...fadeUp(0.55)} className="mt-8 max-w-[54ch] text-[17px] leading-[1.6] text-muted sm:text-[18px]">
+            I&apos;m a Computer Engineering graduate from the University of Mumbai (2026), looking for my first
+            full-time backend role. Most of my work is in Java and Spring Boot, and I also{" "}
+            <a href="#vibe-coding" className="text-fg underline decoration-fg/30 underline-offset-4 transition-colors hover:decoration-accent">
+              vibe code
+            </a>
+            : building with AI tools, then reviewing and fixing what they write.
+          </motion.p>
+
+          <motion.div {...fadeUp(0.65)} className="mt-10 flex flex-wrap items-center gap-3">
+            <Magnetic>
+              <a
+                href="#work"
+                className="group inline-flex h-12 items-center gap-2 rounded-full bg-fg px-6 text-[15px] font-medium text-bg transition-colors hover:bg-accent"
+              >
+                See my work
+                <ArrowDown size={16} className="transition-transform duration-300 group-hover:translate-y-0.5" />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href={personalInfo.resume}
+                download={personalInfo.resumeFileName}
+                className="inline-flex h-12 items-center gap-2 rounded-full border border-fg/20 bg-bg/40 px-6 text-[15px] backdrop-blur-sm transition-colors hover:border-fg/50"
+              >
+                Resume <span className="font-mono text-[11px] text-muted">PDF</span>
+              </a>
+            </Magnetic>
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="group ml-1 inline-flex h-12 items-center gap-2 text-[15px] text-muted transition-colors hover:text-fg"
+            >
+              <span className="link">{personalInfo.email}</span>
+              {copied ? <Check size={15} className="text-accent" /> : <Copy size={15} />}
+              <span className="sr-only" aria-live="polite">
+                {copied ? "Email address copied" : ""}
+              </span>
+            </button>
           </motion.div>
         </div>
-      </motion.div>
+
+        <motion.div {...fadeUp(0.9)} className="mt-auto flex items-end justify-between gap-6 pt-12">
+          <a href="#work" className="label flex items-center gap-3 transition-colors hover:text-fg">
+            <span className="relative h-10 w-px overflow-hidden bg-fg/15" aria-hidden="true">
+              <span className="scroll-line absolute inset-0 bg-fg" />
+            </span>
+            Scroll
+          </a>
+          {latest && (
+            <a
+              href={latest.live}
+              target="_blank"
+              rel="noreferrer"
+              className="label group inline-flex items-center gap-1.5 text-right transition-colors hover:text-fg"
+            >
+              <span>
+                Latest: <span className="text-fg">{latest.name}</span> is live
+              </span>
+              <ArrowUpRight size={13} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          )}
+        </motion.div>
+      </div>
     </section>
   );
 }
