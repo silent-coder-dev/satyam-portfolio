@@ -13,17 +13,11 @@
 
 <br />
 
-<a href="https://support-desk-crm-qs00.onrender.com/">
-  <img src="./public/supportdesk-crm.png" alt="SupportDesk CRM landing page" width="48%" />
-</a>
-<a href="https://nutriscan-web-pi.vercel.app/">
-  <img src="./public/nutriscan.png" alt="NutriScan home page" width="48%" />
-</a>
-
-<br />
-
-<a href="https://ai-resume-builder-silent.vercel.app/">
-  <img src="./public/ai-resume-builder.png" alt="AI Resume Studio editor" width="72%" />
+<a href="https://silently-code.vercel.app/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/portfolio-dark.png" />
+    <img src="./public/portfolio-light.png" alt="Portfolio home page: headline, intro, contact buttons and the dot field" width="100%" />
+  </picture>
 </a>
 
 </div>
@@ -34,6 +28,7 @@
 
 - [Overview](#overview)
 - [Featured projects](#featured-projects)
+- [Vibe coding](#vibe-coding)
 - [What's on the site](#whats-on-the-site)
 - [Technology](#technology)
 - [Run locally](#run-locally)
@@ -48,14 +43,42 @@ I'm a Computer Engineering graduate (University of Mumbai, 2026) looking for a b
 
 ## Featured projects
 
+<p align="center">
+  <a href="https://support-desk-crm-qs00.onrender.com/">
+    <img src="./public/supportdesk-crm.png" alt="SupportDesk CRM landing page" width="48%" />
+  </a>
+  <a href="https://nutriscan-web-pi.vercel.app/">
+    <img src="./public/nutriscan.png" alt="NutriScan home page" width="48%" />
+  </a>
+</p>
+
 | Project | What it is | Built with | Links |
 | --- | --- | --- | --- |
 | **SupportDesk** | Support ticketing CRM: a public customer portal, a live agent queue (SSE), and optimistic locking so two agents can't overwrite each other. | Java 21, Spring Boot 3, Spring Security, JPA/Hibernate, MySQL, Docker | [Live](https://support-desk-crm-qs00.onrender.com/) · [Source](https://github.com/silent-coder-dev/support-desk-crm) |
 | **NutriScan** | Scan a food barcode and get a plain-English verdict, allergy and diet alerts, a veg / non-veg mark and better-rated swaps. | Spring Boot 4, PostgreSQL, Redis, JWT, Next.js, TypeScript | [Live](https://nutriscan-web-pi.vercel.app/) · [Source](https://github.com/silent-coder-dev/nutriscan) |
-| **AI Resume Studio** *(vibe coded)* | Resume editor with live A4 preview, 11 templates, PDF export and AI proofreading / job-description matching. | Next.js, TypeScript, Zustand, Gemini / OpenRouter | [Live](https://ai-resume-builder-silent.vercel.app/) · [Source](https://github.com/silent-coder-dev/ai-resume-builder) |
 
 > [!NOTE]
 > SupportDesk runs on Render's free tier, so the first request can take up to a minute while the server wakes up.
+
+## Vibe coding
+
+Besides the Java work, I build with AI coding tools. I describe what I want, let the AI write a first version, then read it, run it and fix what's wrong. I still decide what to build, review every change, test it, and keep API keys out of the code.
+
+<p align="center">
+  <a href="https://ai-resume-builder-silent.vercel.app/">
+    <img src="./public/ai-resume-builder.png" alt="AI Resume Studio editor" width="48%" />
+  </a>
+  <a href="https://github.com/silent-coder-dev/Dairy">
+    <img src="./public/online-diary.png" alt="Online Diary dashboard with sample entries" width="48%" />
+  </a>
+</p>
+
+| Project | What it is | Built with | Links |
+| --- | --- | --- | --- |
+| **AI Resume Studio** | Resume editor with live A4 preview, 11 templates, PDF export and AI proofreading / job-description matching. | Next.js, TypeScript, Zustand, Gemini / OpenRouter | [Live](https://ai-resume-builder-silent.vercel.app/) · [Source](https://github.com/silent-coder-dev/ai-resume-builder) |
+| **Online Diary** | Private journal: sign up, write entries with a cover image, attach photos or videos, then search, preview, edit or delete them. Light and dark mode. The front end was built with Lovable. | React, TypeScript, Vite, Tailwind CSS, shadcn/ui, Node.js, Express, MongoDB, JWT, Multer | [Source](https://github.com/silent-coder-dev/Dairy) |
+
+Online Diary isn't deployed, so there's no live link. The screenshot is the dashboard running locally with sample entries.
 
 ## What's on the site
 
@@ -110,7 +133,7 @@ Then open the URL Vite prints (usually <http://localhost:5173>).
 ```text
 public/
 ├── *.webp                    # Screenshots and photo used by the site
-├── *.png / avatar.jpg        # Originals (used by this README and for link previews)
+├── *.png / avatar.jpg        # README screenshots and originals (avatar.jpg is the link preview)
 ├── resume.pdf                # Downloaded as Satyam_Singh_Resume.pdf
 └── favicon.svg
 
